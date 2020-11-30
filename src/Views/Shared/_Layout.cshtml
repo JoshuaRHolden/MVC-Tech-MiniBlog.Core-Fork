@@ -1,0 +1,134 @@
+﻿@inject IOptionsSnapshot<BlogSettings> settings
+@inject WebManifest manifest
+@*@{   var host = Context.Request.Scheme + "://" + Context.Request.Host;
+}*@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta name="google-site-verification" content="r4KS2M8ZnjBoREJSZpIba7_SZDwVbjT91cU6DsLNDDw" />
+    <link rel="preload" href="~/mont/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2" as="font" />
+    <link rel="preload" href="~/mont/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2" as="font" />
+    <link rel="preload" href="~/mont/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2" as="font" />
+    <link rel="preload" href="~/mont/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2" as="font" />
+    <link rel="preload" href="~/mont/JTUSjIg1_i6t8kCHKm459WZhyzbi.woff2" as="font" />
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/abovethefold.scss" />
+    <link rel="stylesheet" type="text/css" href="~/css/font.css" />
+    <link href="~/font-awesome/css/all.css" as="style" />
+
+    @*<link href ="~/css/belowthefold.scss" />*@
+    @* <noscript><link rel="stylesheet" href="~/css/belowthefold.scss" /></noscript>*@
+    @RenderSection("Preload", required: false)
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@ViewData["Title"]" />
+    <meta property="og:description" content="@ViewData["Description"]" />
+    @* <meta property="og:url" content="@(host + Context.Request.Path)" />*@
+    @* <meta property="og:image" content="@host/img/icon512x512.png" />*@
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <meta name="msapplication-square150x150logo" content="~/img/icon180x180.png" />
+
+    <link rel="icon" type="image/png" sizes="16x16" href="~/img/icon16x16.png" />
+    <link rel="apple-touch-icon" href="~/img/icon180x180.png" />
+    <link rel="shortcut icon" href="~/img/icon16x16.png" />
+    <link rel="edituri" type="application/rsd+xml" title="RSD" href="~/rsd.xml" />
+    <link rel="alternate" type="application/rss+xml" href="~/feed/rss/" />
+    <link rel="alternate" type="application/atom+xml" href="~/feed/atom/" />
+    @RenderSection("Head", required: false)
+</head>
+<body style="display:none;  overflow-x:hidden;">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="@Url.Content("~/")">MVC TECH BLOG</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                <ul class="navbar-nav ml-auto ">
+                    <li class="nav-item">
+                <a class="nav-link" href="/blog/about">About</a>
+            </li>
+                    
+                    <li class="nav-item dropdown  pr-3 pr-sm-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categories
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            @foreach (string cat in ViewBag.AllCategories)
+                            {
+                            <a asp-controller="Blog" asp-action="Category" asp-route-category="@cat.ToLowerInvariant()" asp-route-page="" class="dropdown-item">@cat</a>
+                                /*<div class="dropdown-divider"></div>*/
+                            }
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            
+        </div>
+        
+    </nav>
+
+    <!-- Page Header -->
+    <header id="masthead" class="masthead">
+        <div id="overlay" class="overlay"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>@ViewBag.SiteHeader</h1>
+                        <span class="subheading">By Joshua Holden</span>
+                    </div>
+                </div>
+                <div class="col-12">
+                 
+                        <div class="input-group mx-auto w-50 mb-4">
+                            <input class="form-control py-2 border-right-0 border" id="postSearch" aria-label="search" type="search" placeholder="Search blogs">
+                            <span class="input-group-append">
+                                <a class="btn btn-outline-light border-left-0 border" onclick="searchPosts();">
+                                    <i class="fa fa-search" style="color:white;"></i>
+                                </a>
+                            </span>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="overflow-x:hidden;">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+               @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-copyright text-center">
+            © 2020 Copyright MVCTech
+           
+        </div>
+    </footer>
+    <script src="~/js/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/popper/umd/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        var applicationRoot = '@Url.Content("~/")';
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

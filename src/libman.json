@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "bootstrap@4.4.1",
+      "destination": "wwwroot/bootstrap/"
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/js/jquery/"
+    },
+    {
+      "library": "popper@1.0.1",
+      "destination": "wwwroot/js/popper/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@1.16.1",
+      "destination": "wwwroot/js/popper"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@5.12.1",
+      "destination": "wwwroot/font-awesome/"
+    }
+  ]
+}

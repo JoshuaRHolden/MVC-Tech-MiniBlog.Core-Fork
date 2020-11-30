@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Post>
+@inject IOptionsSnapshot<BlogSettings> settings
+@{
+    int currentPage = int.Parse(ViewContext.RouteData.Values["page"] as string ?? "0");
+    
+    int pageCount = int.Parse(ViewData["TotalPostCount"].ToString()) / 2; 
+}
+
+@foreach (var post in Model)
+{
+    await Html.RenderPartialAsync("Post.cshtml", post);
+}
+
+    <nav class="container" aria-label="Pagination">
+        <div class="row">
+
+
+            @if (Model.Any() && currentPage < pageCount)
+            {
+                <div class="col-md-3 col-sm-12">
+                    <a class="btn btn-light" style="min-width:100%; margin-bottom:5px;" href="@ViewData["prev"]">Older Posts &larr;</a>
+
+                </div>
+            }
+                <div class="col-6 d-none d-sm-block" >
+                    <br class="d-none d-sm-block" />
+                    </div>
+                    @if (currentPage > 0)
+                    {
+                        <div class="col-md-3 col-sm-12">
+                            <a class="btn btn-light" style="min-width:100%; margin-bottom:5px;" href="@ViewData["next"]">Newer Posts &rarr;</a>
+                        </div>
+                    }
+
+                </div>
+                <br /><br />
+
+                @*@section Head {
+                @if (Model.Any() && currentPage < pageCount)
+                {
+                     <div class="clearfix">
+                         <a class="btn btn-primary float-right" href="@ViewData["prev"]">Older Posts &rarr;</a>
+                     </div>
+                }
+                @if (currentPage > 0)
+                {
+                    <div class="clearfix">
+                        <a class="btn btn-primary float-right" href="@ViewData["next"]">Newer Posts &rarr;</a>
+                    </div>
+                }
+            }*@
+</nav>
+
+@{await Html.RenderPartialAsync("_SocialSharing", ViewData["Title"]);}
